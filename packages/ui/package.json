@@ -1,6 +1,6 @@
 {
   "name": "@virgulimaginaria/ui",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Accessible, domain-agnostic React components for the Primeira Academia Design System, built on shadcn/ui and Base UI.",
   "license": "MIT",
   "type": "module",

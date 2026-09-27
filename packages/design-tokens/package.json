@@ -1,6 +1,6 @@
 {
   "name": "@virgulimaginaria/design-tokens",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Generic, semantic design tokens for the Primeira Academia Design System, as TypeScript values and CSS variables.",
   "license": "MIT",
   "type": "module",
