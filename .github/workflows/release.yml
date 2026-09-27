@@ -1,0 +1,47 @@
+# Changesets release flow, from main only:
+# - unreleased changesets on main → open/update the "Version Packages" PR;
+# - that PR merged (no changesets left) → publish the packages whose version
+#   is not yet in the registry to GitHub Packages, tag and create releases.
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Version or publish packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          # Writes an .npmrc outside the repository that maps the scope to
+          # GitHub Packages and reads the token from NODE_AUTH_TOKEN.
+          registry-url: https://npm.pkg.github.com
+          scope: "@virgulimaginaria"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Create version PR or publish
+        uses: changesets/action@v2
+        with:
+          version-script: pnpm version-packages
+          publish-script: pnpm release
+          commit-message: "chore: version packages"
+          pr-title: "chore: version packages"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

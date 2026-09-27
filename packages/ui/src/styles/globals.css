@@ -1,0 +1,49 @@
+/*
+ * @virgulimaginaria/ui stylesheet.
+ *
+ * Import it once, right after Tailwind, in the application's main stylesheet:
+ *
+ *   @import "tailwindcss";
+ *   @import "@virgulimaginaria/ui/styles.css";
+ *
+ * It registers the design tokens as the Tailwind theme and tells Tailwind to
+ * scan this package's components for the classes they use.
+ */
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@virgulimaginaria/design-tokens/theme.css";
+
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+
+@source "../components";
+
+/*
+ * shadcn/ui vocabulary mapped onto the design-token vocabulary, so components
+ * added with the shadcn CLI work unchanged. New tokens belong in
+ * @virgulimaginaria/design-tokens, not here.
+ */
+@theme inline {
+  --color-card: var(--color-surface);
+  --color-card-foreground: var(--color-surface-foreground);
+  --color-destructive: var(--color-danger);
+  --color-destructive-foreground: var(--color-danger-foreground);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  .dark,
+  [data-theme="dark"] {
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+}

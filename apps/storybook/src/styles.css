@@ -1,0 +1,9 @@
+/* Storybook consumes the Design System exactly like an application would. */
+@import "tailwindcss";
+@import "@virgulimaginaria/ui/styles.css";
+
+/*
+ * Development convenience only: also scan the ui sources, so class changes
+ * appear in Storybook without rebuilding the package.
+ */
+@source "../../../packages/ui/src";

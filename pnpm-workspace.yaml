@@ -1,0 +1,8 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Dependency install scripts are blocked unless listed here. esbuild's script
+# only re-checks its platform binary, which pnpm already installs.
+allowBuilds:
+  esbuild: false

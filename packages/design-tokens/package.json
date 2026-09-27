@@ -1,0 +1,42 @@
+{
+  "name": "@virgulimaginaria/design-tokens",
+  "version": "0.0.0",
+  "description": "Generic, semantic design tokens for the Primeira Academia Design System, as TypeScript values and CSS variables.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virgulimaginaria/design-system.git",
+    "directory": "packages/design-tokens"
+  },
+  "homepage": "https://github.com/virgulimaginaria/design-system/tree/main/packages/design-tokens#readme",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "@virgulimaginaria/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./theme.css": "./dist/theme.css",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "vitest": "^4.1.11"
+  }
+}

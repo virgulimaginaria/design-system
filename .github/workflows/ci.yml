@@ -1,0 +1,72 @@
+# Validates every pull request and every push to main. Never publishes.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Format, lint & typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Install dependencies (fails if pnpm-lock.yaml is out of date)
+        run: pnpm install --frozen-lockfile
+      - name: Check formatting
+        run: pnpm format:check
+      - name: Lint
+        run: pnpm lint
+      - name: Typecheck
+        run: pnpm typecheck
+
+  test:
+    name: Unit, story & accessibility tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Install dependencies (fails if pnpm-lock.yaml is out of date)
+        run: pnpm install --frozen-lockfile
+      - name: Install Chromium for Storybook tests
+        run: pnpm --filter @virgulimaginaria/storybook exec playwright install --with-deps chromium
+      - name: Test
+        # Vitest unit tests in the packages, plus every Storybook story
+        # rendered in Chromium with its play function and an axe audit.
+        run: pnpm test
+
+  build:
+    name: Build packages & Storybook
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Install dependencies (fails if pnpm-lock.yaml is out of date)
+        run: pnpm install --frozen-lockfile
+      - name: Build packages
+        run: pnpm build
+      - name: Check package contents
+        run: pnpm -r --filter "./packages/*" pack --dry-run
+      - name: Build Storybook
+        run: pnpm build-storybook

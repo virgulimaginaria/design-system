@@ -1,0 +1,47 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+<Meta title="Introduction" />
+
+# Primeira Academia Design System
+
+A public, reusable UI foundation for building consistent web applications across the Primeira Academia ecosystem: shared design tokens, accessible UI primitives, reusable components and consistent interaction patterns.
+
+This catalogue renders the **real workspace packages**. Every story is also an automated test: it is rendered in a browser, its interactions are replayed and it is checked with [axe](https://github.com/dequelabs/axe-core) for accessibility violations.
+
+## Packages
+
+| Package                           | Contents                                                                  |
+| --------------------------------- | ------------------------------------------------------------------------- |
+| `@virgulimaginaria/ui`            | React components built with shadcn/ui on top of Base UI.                  |
+| `@virgulimaginaria/design-tokens` | Semantic tokens as TypeScript values, CSS variables and a Tailwind theme. |
+
+## Using the components
+
+```css
+/* the application's main stylesheet */
+@import "tailwindcss";
+@import "@virgulimaginaria/ui/styles.css";
+```
+
+```tsx
+import { Button } from "@virgulimaginaria/ui/button"
+
+export function Example() {
+  return <Button>Save changes</Button>
+}
+```
+
+Each component has its own entry point (`@virgulimaginaria/ui/button`, `@virgulimaginaria/ui/input`, ...). Paths that are not documented are not part of the public API and cannot be imported.
+
+## What belongs here
+
+```text
+Design System   reusable UI capabilities
+Applications    business/domain components
+```
+
+Before building a UI component inside an application, check whether the Design System already provides the capability; if it does not, decide whether it is generic enough to belong here. Components in this catalogue never refer to a product, business process or domain concept, and every example uses fictional data.
+
+## Branding
+
+The Design System contains no logos, restricted fonts or other brand assets. Applications apply their brand by overriding the design-token CSS variables (for example `--color-primary`) in their own stylesheet.

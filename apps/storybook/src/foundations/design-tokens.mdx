@@ -1,0 +1,57 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+import { ColorSwatches, TokenTable } from "./token-tables"
+
+<Meta title="Foundations/Design tokens" />
+
+# Design tokens
+
+Tokens are defined once, in TypeScript, in `@virgulimaginaria/design-tokens` and published three ways:
+
+| Import                                       | Use it for                                                                      |
+| -------------------------------------------- | ------------------------------------------------------------------------------- |
+| `@virgulimaginaria/design-tokens`            | Typed values and `cssVar("--color-primary")` in TypeScript.                     |
+| `@virgulimaginaria/design-tokens/tokens.css` | Plain CSS custom properties, without Tailwind.                                  |
+| `@virgulimaginaria/design-tokens/theme.css`  | A Tailwind CSS v4 theme. Already included by `@virgulimaginaria/ui/styles.css`. |
+
+Names are **semantic** (`--color-danger`, not `--color-red-600`) and never refer to a product, screen or business concept. The values are neutral placeholders: applications apply their brand by overriding the variables.
+
+The dark scheme applies inside `.dark` or `[data-theme="dark"]`; use the toolbar to switch it.
+
+## Colour
+
+Each `*-foreground` colour is meant to be placed on its base colour and keeps a WCAG AA contrast ratio against it.
+
+<ColorSwatches />
+
+## Spacing
+
+A single base unit. Tailwind spacing utilities (`p-4`, `gap-2`) are multiples of it; in plain CSS use `calc(var(--spacing) * 4)`.
+
+<TokenTable prefix="--spacing" />
+
+## Typography
+
+System font stacks only: the Design System ships no font files.
+
+<TokenTable prefix="--font-" />
+<TokenTable prefix="--text-" />
+
+## Radii
+
+<TokenTable prefix="--radius-" />
+
+## Elevation
+
+<TokenTable prefix="--shadow-" />
+
+## Motion
+
+Non-essential motion must be disabled when the user prefers reduced motion.
+
+<TokenTable prefix="--duration-" />
+<TokenTable prefix="--ease-" />
+
+## Breakpoints
+
+<TokenTable prefix="--breakpoint-" />
