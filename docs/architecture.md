@@ -49,8 +49,8 @@ In development, Storybook resolves the packages to their TypeScript sources (see
 
 ```text
 packages/ui/
-  src/components/   one file per component (button.tsx, input.tsx, tooltip.tsx)
-  src/hooks/        reusable React hooks
+  src/components/   one file per component (button.tsx, copy-button.tsx, ...)
+  src/hooks/        internal React hooks (use-copy-to-clipboard.ts)
   src/lib/          internal helpers (utils.ts: cn)
   src/styles/       globals.css → published as styles.css
   components.json   shadcn CLI configuration
@@ -61,6 +61,9 @@ The public API is exactly the `exports` map of each `package.json`:
 | Entry point                                  | Contents                                                                         |
 | -------------------------------------------- | -------------------------------------------------------------------------------- |
 | `@virgulimaginaria/ui/button`                | `Button`, `buttonVariants`, `ButtonProps`                                        |
+| `@virgulimaginaria/ui/copy-button`           | `CopyButton`, `CopyButtonProps`                                                  |
+| `@virgulimaginaria/ui/copyable-input`        | `CopyableInput`, `CopyableInputProps`                                            |
+| `@virgulimaginaria/ui/copyable-text`         | `CopyableText`, `CopyableTextProps`                                              |
 | `@virgulimaginaria/ui/input`                 | `Input`, `InputProps`                                                            |
 | `@virgulimaginaria/ui/tooltip`               | `Tooltip`, `TooltipTrigger`, `TooltipContent`, `TooltipProvider` and their props |
 | `@virgulimaginaria/ui/utils`                 | `cn` (class merging)                                                             |
@@ -91,6 +94,6 @@ Theming is done with CSS variables: the dark scheme applies inside `.dark` or `[
 - **Vitest** runs unit tests in each package (jsdom + Testing Library) and, in Storybook, every story in Chromium with its `play` function and an axe audit (`@storybook/addon-vitest`, `@storybook/addon-a11y`).
 - **GitHub Actions**: `ci.yml` validates; `storybook-pages.yml` publishes Storybook; `release.yml` runs Changesets to version and publish to GitHub Packages.
 
-## Planned capabilities
+## Capabilities
 
-- [Clipboard / copy interactions](planned/clipboard.md): one shared behaviour behind `CopyButton`, `CopyableText` and `CopyableInput`.
+- [Clipboard / copy interactions](clipboard.md): one shared, internal clipboard behaviour behind `CopyButton`, `CopyableText` and `CopyableInput`.

@@ -22,7 +22,9 @@ Before adding anything, check whether an existing component already does it, pos
 - **Variants with `cva`**, named semantically (`default`, `secondary`, `destructive`), never by colour.
 - **Style overrides** through `className`, merged with `cn()` so consumer classes win.
 - **Export a `<Name>Props` type** for every public part, and document the component with JSDoc (it becomes the Storybook description).
-- **One behaviour, one implementation**: share logic through a hook in `src/hooks/` instead of re-implementing it per component.
+- **One behaviour, one implementation**: share logic through a hook in `src/hooks/` instead of re-implementing it per component. Hooks stay internal (reached through `#hooks/*`) unless applications have a concrete need for them. Example: the clipboard behaviour lives only in `use-copy-to-clipboard.ts`; `CopyButton` uses it, and `CopyableText` and `CopyableInput` compose `CopyButton` (see [clipboard.md](clipboard.md)).
+- **Separate what is shown from what it stands for** when they can differ, as in `CopyableText` (`displayValue` is read, `value` is copied). The application formats; the component never does.
+- **Labels are props with English defaults** (`copyLabel="Copy"`), so applications translate them without an i18n dependency here.
 
 ## Accessibility
 
@@ -44,6 +46,7 @@ How it is verified:
 
 - Every story is audited with axe during `pnpm test` (`a11y.test: "error"`), locally and in CI. A violation fails the build.
 - Stories include a `play` function that exercises the keyboard interaction.
+- Browser APIs that need permissions (such as the clipboard) are stubbed with `spyOn` inside the story (`play` or `beforeEach`), so the story proves what the component passes to them.
 - Unit tests query by role and accessible name, which fails when semantics are wrong.
 - Automated checks do not catch everything: also test manually with the keyboard and, for new interaction patterns, a screen reader.
 

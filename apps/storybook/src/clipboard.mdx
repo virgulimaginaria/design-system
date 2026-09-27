@@ -1,0 +1,36 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+<Meta title="Clipboard/Overview" />
+
+# Clipboard
+
+Copy a displayed value in one action, without selecting the text first. Selecting text is awkward with a mouse and unreliable on touch screens, where it competes with scrolling and swiping.
+
+| Component       | Import                                | Use it for                                     |
+| --------------- | ------------------------------------- | ---------------------------------------------- |
+| `CopyButton`    | `@virgulimaginaria/ui/copy-button`    | The copy action on its own (icon-only button). |
+| `CopyableText`  | `@virgulimaginaria/ui/copyable-text`  | A value shown as text, with its copy action.   |
+| `CopyableInput` | `@virgulimaginaria/ui/copyable-input` | An `Input` with a trailing copy action.        |
+
+All three share a single clipboard implementation: `CopyableText` and `CopyableInput` are built on `CopyButton`.
+
+## Display and clipboard are separate concerns
+
+What people read and what is copied can differ. Grouped digits are easier to read, but the value pasted elsewhere should be the canonical one:
+
+```tsx
+<CopyableText value="509123456" displayValue="509 123 456" />
+```
+
+```text
+visible     509 123 456
+clipboard   509123456
+```
+
+Applications decide how a value is formatted and what it means; the Design System never formats or validates identifiers.
+
+## Feedback
+
+After a successful copy the icon turns into a check mark for two seconds and screen readers hear "Copied" through a polite live region. If the browser refuses the write, the button shows an alert icon and announces "Copy failed"; nothing throws. There are no toasts, alerts or dialogs.
+
+Labels are props (`copyLabel`, `copiedLabel`, `errorLabel`), so applications translate them.

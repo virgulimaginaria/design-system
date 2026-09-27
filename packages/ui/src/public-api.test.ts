@@ -6,6 +6,10 @@ import { createRequire } from "node:module"
 
 import { describe, expect, it } from "vitest"
 
+import * as copyButton from "@virgulimaginaria/ui/copy-button"
+import * as copyableInput from "@virgulimaginaria/ui/copyable-input"
+import * as copyableText from "@virgulimaginaria/ui/copyable-text"
+
 import pkg from "../package.json" with { type: "json" }
 
 const require = createRequire(import.meta.url)
@@ -40,10 +44,21 @@ describe("public API", () => {
     "@virgulimaginaria/ui/src/components/button.tsx",
     "@virgulimaginaria/ui/components/button",
     "@virgulimaginaria/ui/dist/components/button.js",
+    // The clipboard hook is shared internally by the copy components only.
+    "@virgulimaginaria/ui/use-copy-to-clipboard",
+    "@virgulimaginaria/ui/hooks/use-copy-to-clipboard",
   ])("does not expose %s", (specifier) => {
     expect(() => require.resolve(specifier)).toThrow(
       /not defined by "exports"|No "exports" main defined/
     )
+  })
+
+  it.each([
+    ["copy-button", copyButton, ["CopyButton"]],
+    ["copyable-text", copyableText, ["CopyableText"]],
+    ["copyable-input", copyableInput, ["CopyableInput"]],
+  ])("exposes %s with exactly its component", (_, module, expected) => {
+    expect(Object.keys(module).sort()).toEqual(expected)
   })
 
   it("depends on no documentation tooling or application", () => {
