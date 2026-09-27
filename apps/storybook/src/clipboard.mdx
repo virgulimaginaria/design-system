@@ -19,7 +19,7 @@ All three share a single clipboard implementation: `CopyableText` and `CopyableI
 What people read and what is copied can differ. Grouped digits are easier to read, but the value pasted elsewhere should be the canonical one:
 
 ```tsx
-<CopyableText value="509123456" displayValue="509 123 456" />
+<CopyableText value="509 123 456" copyValue="509123456" />
 ```
 
 ```text
@@ -27,7 +27,7 @@ visible     509 123 456
 clipboard   509123456
 ```
 
-Applications decide how a value is formatted and what it means; the Design System never formats or validates identifiers.
+Both `CopyableText` and `CopyableInput` use the same props: `value` is what they show, `copyValue` is what they copy, and it defaults to `value`. Applications decide how a value is formatted and what it means; the Design System never formats or validates identifiers.
 
 ## Feedback
 

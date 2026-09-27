@@ -23,7 +23,7 @@ Before adding anything, check whether an existing component already does it, pos
 - **Style overrides** through `className`, merged with `cn()` so consumer classes win.
 - **Export a `<Name>Props` type** for every public part, and document the component with JSDoc (it becomes the Storybook description).
 - **One behaviour, one implementation**: share logic through a hook in `src/hooks/` instead of re-implementing it per component. Hooks stay internal (reached through `#hooks/*`) unless applications have a concrete need for them. Example: the clipboard behaviour lives only in `use-copy-to-clipboard.ts`; `CopyButton` uses it, and `CopyableText` and `CopyableInput` compose `CopyButton` (see [clipboard.md](clipboard.md)).
-- **Separate what is shown from what it stands for** when they can differ, as in `CopyableText` (`displayValue` is read, `value` is copied). The application formats; the component never does.
+- **Separate what is shown from what it stands for** when they can differ, as in `CopyableText` and `CopyableInput` (`value` is shown, the optional `copyValue` is copied). The application formats; the component never does.
 - **Labels are props with English defaults** (`copyLabel="Copy"`), so applications translate them without an i18n dependency here.
 
 ## Accessibility

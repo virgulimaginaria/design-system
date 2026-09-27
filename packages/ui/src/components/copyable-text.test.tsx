@@ -7,15 +7,21 @@ import { CopyableText } from "#components/copyable-text"
 import { mockClipboard } from "../test/clipboard"
 
 describe("CopyableText", () => {
-  it("shows the value when there is no display value", () => {
-    render(<CopyableText value="REF-0042" />)
-    expect(screen.getByText("REF-0042")).toBeVisible()
-  })
-
-  it("shows the display value but copies the raw value", async () => {
+  it("shows and copies the value when there is no copy value", async () => {
     const user = userEvent.setup()
     const writeText = mockClipboard()
-    render(<CopyableText value="509123456" displayValue="509 123 456" />)
+    render(<CopyableText value="REF-0042" />)
+
+    expect(screen.getByText("REF-0042")).toBeVisible()
+    await user.click(screen.getByRole("button", { name: "Copy" }))
+
+    expect(writeText).toHaveBeenCalledExactlyOnceWith("REF-0042")
+  })
+
+  it("shows the value but copies the copy value", async () => {
+    const user = userEvent.setup()
+    const writeText = mockClipboard()
+    render(<CopyableText value="509 123 456" copyValue="509123456" />)
 
     expect(screen.getByText("509 123 456")).toBeVisible()
     expect(screen.queryByText("509123456")).not.toBeInTheDocument()
@@ -27,7 +33,7 @@ describe("CopyableText", () => {
   })
 
   it("describes the copy button with the displayed text", () => {
-    render(<CopyableText value="509123456" displayValue="509 123 456" />)
+    render(<CopyableText value="509 123 456" copyValue="509123456" />)
     expect(
       screen.getByRole("button", { name: "Copy" })
     ).toHaveAccessibleDescription("509 123 456")

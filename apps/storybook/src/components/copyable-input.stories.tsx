@@ -30,7 +30,7 @@ const meta = {
     docs: {
       description: {
         component: `
-An \`Input\` with a trailing \`CopyButton\` inside the same field. It is the regular \`Input\`: every input prop (\`id\`, \`name\`, \`value\`, \`readOnly\`, \`aria-*\`, ...) is forwarded to the \`<input>\`, and \`className\` styles the field's box.
+An \`Input\` with a trailing \`CopyButton\` inside the same field. It is the regular \`Input\`: every input prop (\`id\`, \`name\`, \`value\`, \`readOnly\`, \`aria-*\`, ...) is forwarded to the \`<input>\`, \`className\` included. \`containerClassName\` styles the field's box, which holds the input and the copy action.
 
 \`\`\`tsx
 import { CopyableInput } from "@virgulimaginaria/ui/copyable-input"
@@ -43,7 +43,7 @@ import { CopyableInput } from "@virgulimaginaria/ui/copyable-input"
 />
 \`\`\`
 
-**What is copied.** \`copyValue\` when set, otherwise the field's current value (including what the user typed). As with \`CopyableText\`, display and clipboard are separate: formatting is the application's job.
+**What is copied.** \`copyValue\` when set, otherwise the field's current value (including what the user typed). Same props as \`CopyableText\`: \`value\` is shown, \`copyValue\` is copied; formatting is the application's job.
 
 **States.** \`readOnly\` for values people read and copy but must not change: the field stays focusable, selectable and copyable. \`disabled\` disables the field **and** the copy action, because a disabled value is presented as unavailable.
 

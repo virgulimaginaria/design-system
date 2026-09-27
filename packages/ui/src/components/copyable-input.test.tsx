@@ -90,6 +90,21 @@ describe("CopyableInput", () => {
     expect(writeText).not.toHaveBeenCalled()
   })
 
+  it("styles the input with className and the field box with containerClassName", () => {
+    render(
+      <CopyableInput
+        aria-label="Code"
+        className="font-mono"
+        containerClassName="max-w-sm"
+      />
+    )
+    const input = screen.getByRole("textbox")
+    expect(input).toHaveClass("font-mono")
+    expect(input).not.toHaveClass("max-w-sm")
+    expect(input.parentElement).toHaveClass("max-w-sm")
+    expect(input.parentElement).not.toHaveClass("font-mono")
+  })
+
   it("forwards Input props and accessibility attributes", () => {
     render(
       <>

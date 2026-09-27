@@ -16,7 +16,7 @@ import { CopyableInput } from "@virgulimaginaria/ui/copyable-input"
 import { CopyableText } from "@virgulimaginaria/ui/copyable-text"
 
 <CopyButton value="509123456" />
-<CopyableText value="509123456" displayValue="509 123 456" />
+<CopyableText value="509 123 456" copyValue="509123456" />
 <CopyableInput
   value="PT50 0000 0000 0000 0000 0000 0"
   copyValue="PT50000000000000000000000"
@@ -50,11 +50,14 @@ visible     509 123 456
 clipboard   509123456
 ```
 
-| Component       | Clipboard                                   | Display                      |
-| --------------- | ------------------------------------------- | ---------------------------- |
-| `CopyButton`    | `value`                                     | (nothing, icon only)         |
-| `CopyableText`  | `value`                                     | `displayValue`, else `value` |
-| `CopyableInput` | `copyValue`, else the field's current value | the input's `value`          |
+`CopyableText` and `CopyableInput` use the same two props:
+
+| Prop        | Meaning                                                                                                                                            |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `value`     | What the component shows (the text, or the input's value).                                                                                         |
+| `copyValue` | Optional. What the clipboard receives. Defaults to `value` (for an editable `CopyableInput`, the field's current value, including what was typed). |
+
+`CopyButton` shows no value, so its `value` is simply what it copies.
 
 Formatting rules (how to group a tax number or an account number) are **not** part of the Design System: applications compute the display form. The Design System never validates or formats identifiers.
 
@@ -73,6 +76,10 @@ Formatting rules (how to group a tax number or an account number) are **not** pa
 - Failures never throw. An unavailable API or a refused write (for example, permission denied) moves to `error`: the icon becomes an alert, "Copy failed" is announced and `onCopyError(reason)` is called.
 - `onCopy(value)` is called after a successful copy. No logging or analytics are built in.
 - An `onClick` handler on `CopyButton` runs first and can cancel the copy with `event.preventDefault()`.
+
+## Styling
+
+Every component merges `className` with `cn()`, so consumer classes win. `CopyableText` applies it to its root. `CopyableInput` forwards `className` to the `<input>`, like every other `Input` prop, and styles the field's box (the container holding the input and the trailing copy action) with `containerClassName`.
 
 ## Accessibility
 

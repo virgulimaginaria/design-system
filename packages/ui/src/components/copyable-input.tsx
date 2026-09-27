@@ -19,6 +19,8 @@ type CopyableInputProps = InputProps &
      * current value; set it when the field shows a formatted form.
      */
     copyValue?: string
+    /** Classes for the field's box, which holds the input and the copy action. */
+    containerClassName?: string
   }
 
 function toText(value: InputProps["value"]) {
@@ -26,9 +28,10 @@ function toText(value: InputProps["value"]) {
 }
 
 /**
- * An `Input` with a trailing `CopyButton`. Every `Input` prop is forwarded
- * to the `<input>` (label it as usual, with `id` + `<label>` or
- * `aria-label`); `className` styles the field's outer box.
+ * An `Input` with a trailing `CopyButton`. Every `Input` prop, `className`
+ * included, is forwarded to the `<input>` (label it as usual, with `id` +
+ * `<label>` or `aria-label`); `containerClassName` styles the field's box,
+ * which holds the input and the copy action.
  *
  * - Copies `copyValue`, or the field's current value when it is not set.
  * - Use `readOnly` for values people read and copy but must not change.
@@ -43,6 +46,7 @@ function CopyableInput({
   onCopy,
   onCopyError,
   className,
+  containerClassName,
   value,
   defaultValue,
   onChange,
@@ -59,7 +63,7 @@ function CopyableInput({
       data-slot="copyable-input"
       className={cn(
         "flex h-8 w-full min-w-0 items-center rounded-lg border border-input transition-colors has-[input:disabled]:cursor-not-allowed has-[input:disabled]:bg-input/50 has-[input:disabled]:opacity-50 has-[input:focus-visible]:border-ring has-[input:focus-visible]:ring-3 has-[input:focus-visible]:ring-ring/50 has-[input[aria-invalid=true]]:border-destructive has-[input[aria-invalid=true]]:ring-3 has-[input[aria-invalid=true]]:ring-destructive/20 dark:bg-input/30 dark:has-[input:disabled]:bg-input/80 dark:has-[input[aria-invalid=true]]:border-destructive/50 dark:has-[input[aria-invalid=true]]:ring-destructive/40",
-        className
+        containerClassName
       )}
     >
       <Input
@@ -70,7 +74,10 @@ function CopyableInput({
           if (value === undefined) setUncontrolledValue(event.target.value)
           onChange?.(event)
         }}
-        className="h-full flex-1 rounded-none border-0 bg-transparent ring-0 focus-visible:ring-0 disabled:bg-transparent disabled:opacity-100 aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent"
+        className={cn(
+          "h-full flex-1 rounded-none border-0 bg-transparent ring-0 focus-visible:ring-0 disabled:bg-transparent disabled:opacity-100 aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent",
+          className
+        )}
         {...props}
       />
       <CopyButton

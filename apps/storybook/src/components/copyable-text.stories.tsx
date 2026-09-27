@@ -18,10 +18,10 @@ A displayed value with a \`CopyButton\` beside it, so it can be copied in one ac
 \`\`\`tsx
 import { CopyableText } from "@virgulimaginaria/ui/copyable-text"
 
-<CopyableText value="509123456" displayValue="509 123 456" />
+<CopyableText value="509 123 456" copyValue="509123456" />
 \`\`\`
 
-**Display and clipboard are separate.** \`displayValue\` is what people read; \`value\` is exactly what the clipboard receives. Applications format the display (grouping digits, for example); the Design System never formats or validates values. \`displayValue\` is optional and defaults to \`value\`.
+**Display and clipboard are separate.** \`value\` is what people read; \`copyValue\` is exactly what the clipboard receives, and defaults to \`value\`. Applications format the displayed value (grouping digits, for example); the Design System never formats or validates values. \`CopyableInput\` uses the same two props.
 
 **When to use.** Read-only values in text: details, summaries, table cells. For a value inside a form, use \`CopyableInput\`.
 
@@ -42,10 +42,10 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
 
-export const FormattedDisplayValue: Story = {
+export const FormattedValue: Story = {
   args: {
-    value: "509123456",
-    displayValue: "509 123 456",
+    value: "509 123 456",
+    copyValue: "509123456",
   },
   parameters: {
     docs: {
@@ -103,8 +103,8 @@ export const LongValue: Story = {
 
 export const TypicalIdentifier: Story = {
   args: {
-    value: "PT50000000000000000000000",
-    displayValue: "PT50 0000 0000 0000 0000 0000 0",
+    value: "PT50 0000 0000 0000 0000 0000 0",
+    copyValue: "PT50000000000000000000000",
     copyLabel: "Copy account number",
   },
   render: (args) => (

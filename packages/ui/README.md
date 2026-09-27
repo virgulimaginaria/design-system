@@ -62,7 +62,7 @@ No other path is importable. Props, states, variants and accessibility notes for
 **Display representation and clipboard representation are separate concerns**: show a readable form, copy the canonical one.
 
 ```tsx
-<CopyableText value="509123456" displayValue="509 123 456" />
+<CopyableText value="509 123 456" copyValue="509123456" />
 
 <CopyableInput
   value="PT50 0000 0000 0000 0000 0000 0"
@@ -73,7 +73,7 @@ No other path is importable. Props, states, variants and accessibility notes for
 <CopyButton value="509123456" copyLabel="Copiar" copiedLabel="Copiado" />
 ```
 
-Formatting and meaning of the value are up to the application. Details: [docs/clipboard.md](https://github.com/virgulimaginaria/design-system/blob/main/docs/clipboard.md).
+`value` is what the component shows; `copyValue`, when set, is what it copies. `CopyableInput` forwards `className` to the `<input>` and takes `containerClassName` for the field's box. Formatting and meaning of the value are up to the application. Details: [docs/clipboard.md](https://github.com/virgulimaginaria/design-system/blob/main/docs/clipboard.md).
 
 ## Branding
 

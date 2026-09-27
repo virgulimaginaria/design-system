@@ -13,13 +13,14 @@ type CopyableTextProps = Omit<React.ComponentProps<"span">, "children"> &
     | "onCopy"
     | "onCopyError"
   > & {
-    /** The exact text written to the clipboard. */
+    /** The text shown. Copied as is unless `copyValue` is set. */
     value: string
     /**
-     * What is shown. Defaults to `value`. Use it for a human-readable form
-     * (grouped digits, for example) while `value` stays canonical.
+     * The exact text written to the clipboard. Defaults to `value`; set it
+     * when `value` is a human-readable form (grouped digits, for example) of
+     * a canonical value.
      */
-    displayValue?: React.ReactNode
+    copyValue?: string
     /** Disables the copy action. The text stays readable and selectable. */
     disabled?: boolean
   }
@@ -28,13 +29,13 @@ type CopyableTextProps = Omit<React.ComponentProps<"span">, "children"> &
  * A displayed value followed by a `CopyButton`, so it can be copied without
  * selecting the text first.
  *
- * `displayValue` is what people read; `value` is what the clipboard receives.
- * The text remains selectable as usual, and the copy button is described by
+ * `value` is what people read; `copyValue` (defaulting to `value`) is what
+ * the clipboard receives. The text remains selectable as usual, and the copy button is described by
  * it, so assistive technology announces which value it copies.
  */
 function CopyableText({
   value,
-  displayValue,
+  copyValue,
   copyLabel,
   copiedLabel,
   errorLabel,
@@ -53,10 +54,10 @@ function CopyableText({
       {...props}
     >
       <span id={textId} className="min-w-0 wrap-anywhere">
-        {displayValue ?? value}
+        {value}
       </span>
       <CopyButton
-        value={value}
+        value={copyValue ?? value}
         copyLabel={copyLabel}
         copiedLabel={copiedLabel}
         errorLabel={errorLabel}
